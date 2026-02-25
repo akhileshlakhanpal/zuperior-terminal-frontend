@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Manrope:wght@200..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Zuperior Brand Colors */
+  --color-primary: #8B5CF6;
+  --color-primary-foreground: #FFFFFF;
+  --color-success: #16A34A;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-info: #3B82F6;
+  --color-background: var(--bg-main);
+  --color-foreground: var(--fg-main);
+  /* Use dedicated semantic tokens for things that should flip but aren't gray-scale */
+  --color-muted: var(--color-gray-500);
+}
+
+:root {
+  /* Default Dark Mode mappings */
+  --bg-main: #01040D;
+  --fg-main: #FAFAFA;
+}
+
+:root.light {
+  /* INVERT BACKGROUND/FOREGROUND */
+  --bg-main: #FFFFFF;
+  --fg-main: #111827;
+
+  /* INVERT TAILWIND GRAY SCALE FOR LIGHT MODE */
+  /* We map Dark-Mode usage to Light-Mode visually equivalent intensity */
+  /* e.g. gray-900 (used for containers in dark) -> gray-100 (light containers) */
+  --color-gray-50: #111827;
+  --color-gray-100: #1f2937;
+  --color-gray-200: #374151;
+  --color-gray-300: #4b5563;
+  --color-gray-400: #6b7280;
+  --color-gray-500: #9ca3af;
+  --color-gray-600: #d1d5db;
+  --color-gray-700: #e5e7eb;
+  --color-gray-800: #f3f4f6;
+  --color-gray-900: #f9fafb;
+  --color-gray-950: #ffffff;
+
+  /* Scrollbar override for Light Mode */
+  --sb-track: #f3f4f6;
+  --sb-thumb: #9ca3af;
+  --sb-thumb-hover: #6b7280;
+}
+
+:root {
+  /* Default Scrollbar Colors */
+  --sb-track: #20232A;
+  --sb-thumb: #A8B1BD;
+  --sb-thumb-hover: #C0C8D4;
+}
+
+/* Global font-family configuration */
+html:lang(en),
+body:lang(en),
+html:lang(es),
+body:lang(es),
+html:lang(fr),
+body:lang(fr),
+html:lang(id),
+body:lang(id),
+html:lang(pt),
+body:lang(pt),
+html:lang(sw),
+body:lang(sw),
+html:lang(uz),
+body:lang(uz) {
+  font-family: 'Manrope', 'Manrope Fallback', sans-serif;
+  font-style: normal;
+}
+
+/* Apply Manrope to all elements */
+* {
+  font-family: 'Manrope', 'Manrope Fallback', sans-serif;
+  font-style: normal;
+}
+
+/* Global styles for full screen height */
+
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--color-background) !important;
+  color: var(--color-foreground) !important;
+  /* Ensure gaps are visible properly based on theme */
+}
+
+/* Custom scrollbar styles */
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sb-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb);
+  border: 3.5px solid var(--sb-track);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sb-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--sb-track);
+}
+
+/* Scrollbar Buttons (Arrows) */
+::-webkit-scrollbar-button:single-button {
+  background-color: var(--sb-track);
+  display: block;
+  background-size: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Up Arrow */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  height: 16px;
+  width: 16px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23A8B1BD'%3E%3Cpath d='M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23C0C8D4'%3E%3Cpath d='M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z'/%3E%3C/svg%3E");
+}
+
+/* Down Arrow */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  height: 16px;
+  width: 16px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23A8B1BD'%3E%3Cpath d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar-button:single-button:vertical:increment:hover {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23C0C8D4'%3E%3Cpath d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/%3E%3C/svg%3E");
+}
+
+/* Left Arrow */
+::-webkit-scrollbar-button:single-button:horizontal:decrement {
+  height: 16px;
+  width: 16px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23A8B1BD'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar-button:single-button:horizontal:decrement:hover {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23C0C8D4'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3C/svg%3E");
+}
+
+/* Right Arrow */
+::-webkit-scrollbar-button:single-button:horizontal:increment {
+  height: 16px;
+  width: 16px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23A8B1BD'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar-button:single-button:horizontal:increment:hover {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23C0C8D4'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'/%3E%3C/svg%3E");
+}
+
+/* Navbar specific scrollbar */
+.navbar-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  /* Thinner scrollbar height */
+}
+
+.navbar-scrollbar::-webkit-scrollbar-thumb {
+  border: 1px solid #20232A;
+  /* Smaller border for thinner scrollbar */
+  border-radius: 3px;
+}
+
+.navbar-scrollbar::-webkit-scrollbar-button {
+  display: none;
+  /* Hide buttons for cleaner look on navbar */
+}
+
+/* Smooth resize handle styles */
+.resize-handle {
+  transition: background-color 0.15s ease-in-out;
+  position: relative;
+}
+
+.resize-handle:hover {
+  background-color: rgb(59 130 246 / 0.8) !important;
+}
+
+.resize-handle:active {
+  background-color: rgb(59 130 246) !important;
+}
+
+/* Resize handle visual feedback */
+.resize-handle-horizontal::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3px;
+  height: 20px;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  border-radius: 1px;
+}
+
+.resize-handle-vertical::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 3px;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  border-radius: 1px;
+}
+
+.resize-handle:hover::after {
+  opacity: 0.6;
+}
+
+.resize-handle:active::after {
+  opacity: 1;
+}
+
+/* Wavy / Shimmer Loader for Financial Data */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 25%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes wavyText {
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-3px);
+    opacity: 0.8;
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+
+.animate-wavy {
+  display: inline-block;
+  animation: wavyText 1s ease-in-out infinite;
+}

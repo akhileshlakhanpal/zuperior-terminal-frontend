@@ -491,17 +491,26 @@ export async function closeMultiplePositionsDirect(
 
 /**
  * Helper to determine the volume for pending orders sent to the C# MT5 API bridge.
- * The broker's bridge expects exact lots (float) for most symbols (Forex, Metals),
- * but expects lots * 100 for Crypto symbols like BTC/ETH.
+ * Scaling varies by symbol category to satisfy server-side minimums and multipliers.
  */
 function getPendingOrderVolume(symbol: string, volume: number): number {
-    const sym = (symbol || '').toUpperCase();
-    if (sym.includes('BTC') || sym.includes('ETH')) {
-        return Math.round(volume * 100);
+    const s = symbol.toUpperCase();
+
+    // Indices (US30, NAS100, DAX/GER40, etc.)
+    // User: typing 0.01 and sending 0.1 (v*10) placed 0.10. 
+    // To get 0.01 placed, we must send 0.01. So multiplier is 1x.
+    const isIndex = s.includes('US30') || s.includes('NAS') || s.includes('GER') || s.includes('DE30') ||
+        s.includes('SPX') || s.includes('UK100') || s.includes('HK50') || s.includes('FRA40') ||
+        s.includes('ESTX50') || s.includes('AUS200') || s.includes('US500') || s.includes('VIX');
+
+    if (isIndex) {
+        return parseFloat(volume.toFixed(3));
     }
-    // The broker's bridge puts a 10x multiplier natively on Forex pending orders.
-    // So to place 0.01 lots, we must send 0.001.
-    return Number((parseFloat(String(volume)) / 10).toFixed(4));
+
+    // Metals, Forex, Crypto, Energies
+    // Metals/Forex: v*10 (0.1) failed with "min=1". Sending 1 (v*100) targets 0.01 lot placement.
+    // Crypto: v*10 (0.1) placed 0.001. To get 0.01, we need 10x more (v*100 = 1).
+    return Math.round(volume * 100);
 }
 
 /**
@@ -789,23 +798,30 @@ export async function modifyPendingOrderDirect({
         } else {
             orderIdNum = orderId;
         }
-        // URL: /client/Orders/ModifyPendingOrder
-        const url = `${API_BASE}/client/Orders/ModifyPendingOrder`;
+        // URL: /client/order/{orderId} — matches working zup-updated-terminal implementation
+        const url = `${API_BASE}/client/order/${orderIdNum}`;
 
         const payload: any = {
             OrderId: orderIdNum,
-            Price: price !== undefined && price !== null && Number(price) > 0 ? Number(price) : 0,
-            StopLoss: stopLoss !== undefined && stopLoss !== null && Number(stopLoss) > 0 ? Number(stopLoss) : 0,
-            TakeProfit: takeProfit !== undefined && takeProfit !== null && Number(takeProfit) > 0 ? Number(takeProfit) : 0,
-            Expiration: '0001-01-01T00:00:00',
             Comment: comment,
         };
+
+        if (price !== undefined && price !== null && Number(price) > 0) {
+            payload.Price = Number(price);
+        }
+        if (stopLoss !== undefined && stopLoss !== null) {
+            payload.StopLoss = Number(stopLoss) > 0 ? Number(stopLoss) : 0;
+        }
+        if (takeProfit !== undefined && takeProfit !== null) {
+            payload.TakeProfit = Number(takeProfit) > 0 ? Number(takeProfit) : 0;
+        }
 
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`,
+                'AccountId': String(accountId),
             },
             body: JSON.stringify(payload),
         });

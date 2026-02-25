@@ -6,6 +6,7 @@ import Tooltip from '../ui/Tooltip';
 
 import { useTrading } from '../../context/TradingContext';
 import { useAccount } from '../../context/AccountContext';
+import { cn } from '../../lib/utils';
 
 const ModifyPositionModal = () => {
   const { modifyModalState, setModifyModalState, requestModifyPosition } = useTrading();
@@ -282,7 +283,7 @@ const ModifyPositionModal = () => {
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-background/10"
       onClick={handleBackdropClick}
     >
-      <div className="bg-background border border-gray-800 rounded-lg w-[400px] shadow-2xl overflow-hidden font-sans text-gray-200">
+      <div className="bg-background border border-gray-800 rounded-lg w-[400px] shadow-2xl overflow-hidden font-sans text-foreground">
         {/* Header */}
         <div className="px-4 pt-4 pb-2 flex justify-between items-start">
           <div>
@@ -309,7 +310,7 @@ const ModifyPositionModal = () => {
                 <span className="text-[15px] font-medium">{position.pl || '0.00'}</span>
                 <span className="text-[11px] text-gray-400">USD</span>
               </div>
-              <div className="text-[#e1e1e1] font-medium text-[13px]">
+              <div className="text-gray-100 font-medium text-[13px]">
                 {position.currentPrice || position.price}
               </div>
             </div>
@@ -332,28 +333,28 @@ const ModifyPositionModal = () => {
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-[12px] text-gray-400 font-medium">Entry Price</label>
               </div>
-              <div className="flex h-[38px] border border-[#2a3038] rounded hover:border-[#8b9096] transition-colors group focus-within:border-[#0099ff] bg-[#1e222d]">
+              <div className="flex h-[38px] border border-gray-800 rounded hover:border-gray-700 transition-colors group focus-within:border-primary bg-gray-900">
                 <input
                   type="text"
                   placeholder="Price"
                   value={priceValue}
                   onChange={(e) => setPriceValue(e.target.value)}
-                  className="flex-1 bg-transparent px-3 text-[14px] text-foreground placeholder-[#585c63] outline-none"
+                  className="flex-1 bg-transparent px-3 text-[14px] text-foreground placeholder-gray-500 outline-none"
                 />
-                <div className="flex items-center border-l border-[#2a3038]">
+                <div className="flex items-center border-l border-gray-800">
                   <div className="flex h-full">
                     <button
                       onClick={() => adjustValue(setPriceValue, priceValue, -0.1)}
-                      className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-[#2a3038] hover:text-foreground transition-colors"
+                      className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-foreground transition-colors"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                       </svg>
                     </button>
-                    <div className="w-[1px] h-full bg-[#2a3038]"></div>
+                    <div className="w-[1px] h-full bg-gray-800"></div>
                     <button
                       onClick={() => adjustValue(setPriceValue, priceValue, 0.1)}
-                      className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-[#2a3038] hover:text-foreground transition-colors"
+                      className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-foreground transition-colors"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -377,34 +378,34 @@ const ModifyPositionModal = () => {
                 </div>
               </Tooltip>
             </div>
-            <div className="flex h-[38px] border border-[#2a3038] rounded hover:border-[#8b9096] transition-colors group focus-within:border-[#0099ff] bg-[#1e222d]">
+            <div className="flex h-[38px] border border-gray-800 rounded hover:border-gray-700 transition-colors group focus-within:border-primary bg-gray-900">
               <input
                 type="text"
                 placeholder="Not set"
                 value={tpValue}
                 onChange={(e) => setTpValue(e.target.value)}
-                className="flex-1 bg-transparent px-3 text-[14px] text-foreground placeholder-[#585c63] outline-none"
+                className="flex-1 bg-transparent px-3 text-[14px] text-foreground placeholder-gray-500 outline-none"
               />
-              <div className="flex items-center border-l border-[#2a3038]">
-                <button className="px-3 h-full text-[12px] text-gray-400 hover:text-foreground flex items-center gap-1 transition-colors hover:bg-[#2a3038]">
+              <div className="flex items-center border-l border-gray-800">
+                <button className="px-3 h-full text-[12px] text-gray-400 hover:text-foreground flex items-center gap-1 transition-colors hover:bg-gray-800">
                   Price
                   <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M7 10l5 5 5-5z" />
                   </svg>
                 </button>
-                <div className="flex h-full border-l border-[#2a3038]">
+                <div className="flex h-full border-l border-gray-800">
                   <button
                     onClick={() => adjustValue(setTpValue, tpValue, -0.1)}
-                    className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-[#2a3038] hover:text-foreground transition-colors"
+                    className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-foreground transition-colors"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                     </svg>
                   </button>
-                  <div className="w-[1px] h-full bg-[#2a3038]"></div>
+                  <div className="w-[1px] h-full bg-gray-800"></div>
                   <button
                     onClick={() => adjustValue(setTpValue, tpValue, 0.1)}
-                    className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-[#2a3038] hover:text-foreground transition-colors"
+                    className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-foreground transition-colors"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -419,11 +420,11 @@ const ModifyPositionModal = () => {
               return (
                 <div className="flex items-center gap-2 mt-1.5 text-[11px] text-gray-400">
                   <span>{stats.pips} pips</span>
-                  <span className="text-[#2a3038]">|</span>
+                  <span className="text-gray-800">|</span>
                   <span className={stats.isProfit ? 'text-success' : 'text-[#ff444f]'}>
                     {stats.isProfit ? '+' : ''}{stats.usd} USD
                   </span>
-                  <span className="text-[#2a3038]">|</span>
+                  <span className="text-gray-800">|</span>
                   <span className={stats.isProfit ? 'text-success' : 'text-[#ff444f]'}>
                     {stats.isProfit ? '+' : ''}{stats.percent}%
                   </span>
@@ -444,34 +445,34 @@ const ModifyPositionModal = () => {
                 </div>
               </Tooltip>
             </div>
-            <div className="flex h-[38px] border border-[#2a3038] rounded hover:border-[#8b9096] transition-colors group focus-within:border-[#0099ff] bg-[#1e222d]">
+            <div className="flex h-[38px] border border-gray-800 rounded hover:border-gray-700 transition-colors group focus-within:border-primary bg-gray-900">
               <input
                 type="text"
                 placeholder="Not set"
                 value={slValue}
                 onChange={(e) => setSlValue(e.target.value)}
-                className="flex-1 bg-transparent px-3 text-[14px] text-foreground placeholder-[#585c63] outline-none"
+                className="flex-1 bg-transparent px-3 text-[14px] text-foreground placeholder-gray-500 outline-none"
               />
-              <div className="flex items-center border-l border-[#2a3038]">
-                <button className="px-3 h-full text-[12px] text-gray-400 hover:text-foreground flex items-center gap-1 transition-colors hover:bg-[#2a3038]">
+              <div className="flex items-center border-l border-gray-800">
+                <button className="px-3 h-full text-[12px] text-gray-400 hover:text-foreground flex items-center gap-1 transition-colors hover:bg-gray-800">
                   Price
                   <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M7 10l5 5 5-5z" />
                   </svg>
                 </button>
-                <div className="flex h-full border-l border-[#2a3038]">
+                <div className="flex h-full border-l border-gray-800">
                   <button
                     onClick={() => adjustValue(setSlValue, slValue, -0.1)}
-                    className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-[#2a3038] hover:text-foreground transition-colors"
+                    className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-foreground transition-colors"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                     </svg>
                   </button>
-                  <div className="w-[1px] h-full bg-[#2a3038]"></div>
+                  <div className="w-[1px] h-full bg-gray-800"></div>
                   <button
                     onClick={() => adjustValue(setSlValue, slValue, 0.1)}
-                    className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-[#2a3038] hover:text-foreground transition-colors"
+                    className="w-[32px] h-full flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-foreground transition-colors"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -486,11 +487,11 @@ const ModifyPositionModal = () => {
               return (
                 <div className="flex items-center gap-2 mt-1.5 text-[11px] text-gray-400">
                   <span>{stats.pips} pips</span>
-                  <span className="text-[#2a3038]">|</span>
+                  <span className="text-gray-800">|</span>
                   <span className={stats.isProfit ? 'text-success' : 'text-[#ff444f]'}>
                     {stats.isProfit ? '+' : ''}{stats.usd} USD
                   </span>
-                  <span className="text-[#2a3038]">|</span>
+                  <span className="text-gray-800">|</span>
                   <span className={stats.isProfit ? 'text-success' : 'text-[#ff444f]'}>
                     {stats.isProfit ? '+' : ''}{stats.percent}%
                   </span>
@@ -502,7 +503,7 @@ const ModifyPositionModal = () => {
           {/* Action Button */}
           <button
             onClick={handleAction}
-            className="w-full h-[40px] bg-primary hover:bg-primary text-black text-[14px] font-medium rounded transition-colors mt-2"
+            className="w-full h-[40px] bg-primary hover:opacity-90 text-white text-[14px] font-medium rounded transition-colors mt-2"
           >
             {position.isOrder ? 'Modify order' : 'Modify position'}
           </button>

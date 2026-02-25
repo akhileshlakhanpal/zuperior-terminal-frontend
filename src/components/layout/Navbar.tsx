@@ -291,8 +291,8 @@ export default function Navbar({ logoLarge, logoSmall }: NavbarProps) {
           <div className='flex items-center'>
             <div className="text-yellow-300 font-semi-bold">
               <img
-                src={isSidebarExpanded ? logoLarge : logoSmall}
-                className='h-8'
+                src={theme === 'dark' ? '/logo-dark.png' : '/logo-light.png'}
+                className='h-10 w-auto object-contain'
                 alt="Zuperior"
               />
             </div>

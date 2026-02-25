@@ -152,10 +152,12 @@ export default function AccountDropdown({ isOpen, onClose }) {
                   <div
                     key={account.id}
                     onClick={() => handleAccountSelect(account.accountId)}
-                    className={`relative p-3 rounded-md cursor-pointer transition-colors border ${isSelected
-                      ? 'bg-[#1e1b2e] border-[#5a4d9e]'
-                      : 'bg-[#151921] border-transparent hover:bg-[#1c222b]'
-                      }`}
+                    className={cn(
+                      "relative p-3 rounded-md cursor-pointer transition-colors border",
+                      isSelected
+                        ? "bg-gray-800 border-primary"
+                        : "bg-gray-900 border-transparent hover:bg-gray-800"
+                    )}
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`px-1.5 py-[2px] text-[10px] rounded font-medium ${account.accountType === 'Live' ? 'bg-[#3d2e18] text-[#eab308]' : 'bg-green-900/40 text-green-400'}`}>
@@ -167,7 +169,7 @@ export default function AccountDropdown({ isOpen, onClose }) {
                       {hideBalance
                         ? '***'
                         : (!accData)
-                          ? <div className="h-4 w-20 animate-shimmer rounded bg-white/5" />
+                          ? <div className="h-4 w-20 animate-pulse rounded bg-gray-800" />
                           : `${formatCurrency(accEquity, 2)} USD`
                       }
                     </div>

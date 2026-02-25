@@ -1535,6 +1535,7 @@ export class ZuperiorBroker extends AbstractBrokerMinimal {
 		}
 	}
 
+
 	public async editPositionBrackets(positionId: string, modification: any): Promise<void> {
 		if (positionId === PREVIEW_POSITION_ID) {
 			console.log('[ZuperiorBroker] editPositionBrackets: Handling preview position');
@@ -1760,7 +1761,7 @@ export class ZuperiorBroker extends AbstractBrokerMinimal {
 	public config(): any {
 		return {
 			supportPlaceOrderPreview: true,
-			supportModifyOrderPreview: true,
+			supportModifyOrderPreview: false,
 			supportBrackets: true,
 			supportClosePosition: true,
 			supportPLUpdate: true,
@@ -2679,7 +2680,6 @@ export class ZuperiorBroker extends AbstractBrokerMinimal {
 		if (typeof window === 'undefined') return;
 
 		const isPosition = 'avgPrice' in order;
-		const sideStr = order.side === Side.Buy ? 'buy' : 'sell';
 
 		// Determine type and price based on whether it's an Order or Position
 		let typeStr = 'market';
@@ -2693,8 +2693,6 @@ export class ZuperiorBroker extends AbstractBrokerMinimal {
 			price = (order as Order).type === OrderType.Limit ? (order as Order).limitPrice! : (order as Order).stopPrice!;
 		}
 
-		// console.log(`[ZuperiorBroker] Syncing to panel: id=${order.id} side=${sideStr} type=${typeStr} price=${price}`);
-
 		const targetWin = window.top || window;
 		targetWin.dispatchEvent(new CustomEvent('__ON_ORDER_PREVIEW_CHANGE__', {
 			detail: {
@@ -2704,7 +2702,9 @@ export class ZuperiorBroker extends AbstractBrokerMinimal {
 				stopLoss: order.stopLoss,
 				qty: order.qty,
 				type: typeStr,
-				side: sideStr,
+				// NOTE: 'side' is intentionally NOT included here for real order modifications.
+				// Including 'side' triggers setPendingOrderSide() in OrderPanel which opens
+				// the confirmation dialog — we only want that for new order previews.
 				source: source
 			}
 		}));
